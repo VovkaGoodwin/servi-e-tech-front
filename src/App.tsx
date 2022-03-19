@@ -1,11 +1,22 @@
 import React from 'react';
 import './App.css';
+import 'antd/dist/antd.min.css';
+import {BrowserRouter} from "react-router-dom";
+import {useRoutes} from "./routes";
+import {Layout} from "antd";
+import {Content} from "antd/es/layout/layout";
 
 function App() {
-  return (
-    <div className="App">
+  const routes = useRoutes({isAuthenticated: false});
 
-    </div>
+  return (
+    // <Layout className="content">
+    //   <Content>
+        <BrowserRouter>
+          {routes}
+        </BrowserRouter>
+      // </Content>
+    // </Layout>
   );
 }
 
