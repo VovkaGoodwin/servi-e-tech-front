@@ -2,41 +2,48 @@ import React from "react";
 import {Form, Input, Button, Checkbox, Layout, Row, Col} from 'antd';
 
 export const LoginPage: React.FC = () => {
+
+  const onFinish = (values: any) => {
+
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
-    <Row justify="space-around" align="middle">
-      <Col>
+    <div className="content-center">
         <Form
-          name="basic"
-          // labelCol={{ span: 8 }}
-          // wrapperCol={{ span: 8 }}
+          name="login"
+          labelCol={{ span: 8 }}
           initialValues={{ remember: true }}
-          // onFinish={onFinish}
-          // onFinishFailed={onFinishFailed}
-          autoComplete="off"
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+          // autoComplete="off"
+          // className="login-form"
         >
           <Form.Item
-            label="Username"
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
+            label="Логин"
+            name="login"
+            rules={[{ required: true, message: 'Введите логин!' }]}
           >
             <Input />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label="Пароль"
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Введите пароль!' }]}
           >
             <Input.Password />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
             <Button type="primary" htmlType="submit">
-              Submit
+              Вход
             </Button>
           </Form.Item>
         </Form>
-      </Col>
-    </Row>
+    </div>
   );
 }

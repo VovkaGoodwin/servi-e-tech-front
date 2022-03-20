@@ -1,0 +1,13 @@
+.content-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 50px);
+    width: 100%;
+}
+
+.login-form {
+    padding: 15px;
+    border: 2px solid rgba(24, 144, 255, 0.86);
+    border-radius: 15px;
+}
