@@ -1,10 +1,23 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Form, Input, Button, Checkbox, Layout, Row, Col} from 'antd';
+import {useHttp} from "../hooks/http.hook";
+import {AuthContext} from "../context/AuthContext";
 
 export const LoginPage: React.FC = () => {
 
-  const onFinish = (values: any) => {
+  const auth = useContext(AuthContext);
 
+  const onFinish = (values: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { request } = useHttp();
+    console.log(values);
+
+    request.post('/api/auth', values).then((response) => {
+      if (response.status === 200) {
+        const { user, authData } = response.data;
+        auth.login(authData.token, authData.id);
+      }
+    });
   };
 
   const onFinishFailed = (errorInfo: any) => {

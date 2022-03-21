@@ -20,6 +20,8 @@ export const useRoutes: React.FC<useRoutesProps> = ({isAuthenticated}) => {
         <Route path="/switch" element={<SwitchDetailsPage/>}/>
         <Route path="/port" element={<PortDetailsPage/>}/>
         <Route path="/home" element={<HouseDetailsPage/>}/>
+        <Route path="*" element={<Navigate to="/"/>}/>
+
       </Routes>
     );
   }
