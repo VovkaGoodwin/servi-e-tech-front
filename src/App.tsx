@@ -6,14 +6,14 @@ import {useAuth} from "./hooks/auth.hook";
 import {AuthContext} from "./context/AuthContext";
 
 function App() {
-  const { token, login, logout, userId, ready } = useAuth();
+  const { token, login, logout, userId, ready, setAuthenticatedUser, authenticatedUser } = useAuth();
   const isAuthenticated: boolean = !!token
   const routes = useRoutes({isAuthenticated});
   console.log(isAuthenticated);
 
   return (
     <AuthContext.Provider
-      value={{ token, login, logout, userId, isAuthenticated }}
+      value={{ token, login, logout, userId, isAuthenticated, setAuthenticatedUser, authenticatedUser }}
     >
       <BrowserRouter>
         {routes}

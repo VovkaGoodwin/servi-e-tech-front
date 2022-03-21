@@ -1,11 +1,14 @@
 import {useCallback, useEffect, useState} from "react";
+import {User} from "../types/dataTypes";
 
 type authHook = {
   login: (jwtToken: string, id: number | string) => void
   logout: () => void,
   token: string | null,
   userId: string | number | null
-  ready: boolean
+  ready: boolean,
+  authenticatedUser: User | null,
+  setAuthenticatedUser: (user: User | null) => void
 }
 
 type authData = Pick<authHook, "token" | "userId">
@@ -16,6 +19,7 @@ export const useAuth = (): authHook => {
   const [ token, setToken ] = useState <string | null> (null);
   const [ ready, setReady ] = useState <boolean> (false);
   const [ userId, setUserId ] = useState <number | string | null>  (null);
+  const [ authenticatedUser, setAuthenticatedUser ] = useState<User | null>(null);
 
   const login = useCallback((jwtToken: string, id: number | string | null): void => {
     setToken(jwtToken);
@@ -43,5 +47,5 @@ export const useAuth = (): authHook => {
     setReady(true);
   }, [ login ]);
 
-  return { login, logout, userId, token, ready };
+  return { login, logout, userId, token, ready, authenticatedUser, setAuthenticatedUser };
 }
