@@ -4,7 +4,7 @@ import {User} from "../types/dataTypes";
 function noop () {}
 
 type authContext = {
-  login: (jwtToken: string, id: number | string) => void
+  login: (jwtToken: string, id: number | string, user: User | null) => void
   logout: () => void,
   token: string | null,
   userId: string | number | null,

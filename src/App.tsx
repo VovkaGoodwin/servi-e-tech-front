@@ -9,7 +9,7 @@ function App() {
   const { token, login, logout, userId, ready, setAuthenticatedUser, authenticatedUser } = useAuth();
   const isAuthenticated: boolean = !!token
   const routes = useRoutes({isAuthenticated});
-  console.log(isAuthenticated);
+  console.log(isAuthenticated, authenticatedUser);
 
   return (
     <AuthContext.Provider

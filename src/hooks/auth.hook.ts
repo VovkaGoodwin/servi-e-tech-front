@@ -2,7 +2,7 @@ import {useCallback, useEffect, useState} from "react";
 import {User} from "../types/dataTypes";
 
 type authHook = {
-  login: (jwtToken: string, id: number | string) => void
+  login: (jwtToken: string, id: number | string, user: User | null) => void
   logout: () => void,
   token: string | null,
   userId: string | number | null
@@ -11,7 +11,7 @@ type authHook = {
   setAuthenticatedUser: (user: User | null) => void
 }
 
-type authData = Pick<authHook, "token" | "userId">
+type authData = Pick<authHook, "token" | "userId" | "authenticatedUser">
 
 const storageName: string = 'authData';
 
@@ -21,13 +21,15 @@ export const useAuth = (): authHook => {
   const [ userId, setUserId ] = useState <number | string | null>  (null);
   const [ authenticatedUser, setAuthenticatedUser ] = useState<User | null>(null);
 
-  const login = useCallback((jwtToken: string, id: number | string | null): void => {
+  const login = useCallback((jwtToken: string, id: number | string | null, user: User | null): void => {
     setToken(jwtToken);
     setUserId(id);
+    setAuthenticatedUser(user);
 
     const authData: authData = {
       userId: id,
-      token: jwtToken
+      token: jwtToken,
+      authenticatedUser: user
     }
 
     localStorage.setItem(storageName, JSON.stringify(authData))
@@ -36,13 +38,14 @@ export const useAuth = (): authHook => {
   const logout = useCallback(() => {
     setToken(null);
     setUserId(null);
+    setAuthenticatedUser(null);
     localStorage.removeItem(storageName);
   }, []);
 
   useEffect(() => {
     const data: authData | null = JSON.parse(localStorage.getItem(storageName) ?? 'null');
     if (data && data.token) {
-      login(data.token, data.userId);
+      login(data.token, data.userId, data.authenticatedUser);
     }
     setReady(true);
   }, [ login ]);

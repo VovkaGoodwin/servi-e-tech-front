@@ -15,8 +15,7 @@ export const LoginPage: React.FC = () => {
     request.post('/api/auth', values).then((response) => {
       if (response.status === 200) {
         const { user, authData } = response.data;
-        auth.login(authData.token, authData.id);
-        auth.setAuthenticatedUser(user);
+        auth.login(authData.token, authData.id, user);
       }
     });
   };
