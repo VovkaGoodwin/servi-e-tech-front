@@ -16,10 +16,11 @@ export const useRoutes: React.FC<useRoutesProps> = ({isAuthenticated}) => {
   if (isAuthenticated) {
     return (
       <Routes>
-        <Route path="/" element={<SearchPage/>}/>
-        <Route path="/switch" element={<SwitchDetailsPage/>}/>
-        <Route path="/port" element={<PortDetailsPage/>}/>
-        <Route path="/home" element={<HouseDetailsPage/>}/>
+        <Route path="/*" element={<SearchPage/>}>
+          <Route path="switch" element={<SwitchDetailsPage/>}/>
+          <Route path="port" element={<PortDetailsPage/>}/>
+          <Route path="home" element={<HouseDetailsPage/>}/>
+        </Route>
         <Route path="*" element={<Navigate to="/"/>}/>
 
       </Routes>
