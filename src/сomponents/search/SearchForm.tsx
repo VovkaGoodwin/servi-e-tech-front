@@ -7,7 +7,7 @@ type SearchFormProps = {
   address: string,
   homeNumber: string,
   ipAddress: string,
-  portNumber: number | undefined
+  portNumber: number | string
 };
 
 export const SearchForm: React.FC<SearchFormProps> = ({

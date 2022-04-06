@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 import MockAdapter from "axios-mock-adapter";
-import {mockAuth, mockUsers} from "../mockDara";
+import {mockAuth, mockUsers, mockHomes} from "../mockDara";
 import {encode} from "js-base64";
 import {User} from "../types/dataTypes";
 
@@ -33,6 +33,25 @@ export const useHttp = (): httpHook => {
     }
 
     return [204]
+  });
+
+  mock.onPost('/api/search/home').reply((request) => {
+
+    const data = JSON.parse(request.data);
+    console.log('get data:', data);
+    console.log('Home: ', mockHomes);
+
+
+
+    // eslint-disable-next-line eqeqeq
+    const home = mockHomes.find(home => home.number == data.homeNumber && home.street == data.street )
+
+    if (home) {
+      return [ 200, { home }]
+    }
+
+    return [ 404 ];
+    // const data = JSON.parse(req)
   });
 
   return { request };

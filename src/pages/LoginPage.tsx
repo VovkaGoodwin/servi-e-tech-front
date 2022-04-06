@@ -1,15 +1,14 @@
 import React, {useContext} from "react";
-import {Form, Input, Button, Checkbox, Layout, Row, Col} from 'antd';
+import {Form, Input, Button} from 'antd';
 import {useHttp} from "../hooks/http.hook";
 import {AuthContext} from "../context/AuthContext";
 
 export const LoginPage: React.FC = () => {
 
   const auth = useContext(AuthContext);
+  const { request } = useHttp();
 
   const onFinish = (values: any) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { request } = useHttp();
     console.log(values);
 
     request.post('/api/auth', values).then((response) => {
@@ -25,7 +24,7 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="content-center">
+    <div className="content__center">
         <Form
           name="login"
           labelCol={{ span: 8 }}
