@@ -1,76 +1,39 @@
-import React from 'react'
-import {Link, useLocation} from "react-router-dom";
+import React, {useEffect, useState} from 'react'
+import {useParams, useSearchParams} from "react-router-dom";
 import {Abon, Home} from "../types/dataTypes";
-import {Table} from "antd";
+import {Col, Row, Spin, Table} from "antd";
+import {useHttp} from "../hooks/http.hook";
+import {AbonsTable} from "../components/AbonsTable";
 
 export const HouseDetailsPage: React.FC = () => {
-  const { state } = useLocation();
-  const { home } = state as {home: Home };
-  const columns = [
-    {
-      title: 'ЛС',
-      dataIndex: 'ls',
-      key: 'ls',
-    },{
-      title: 'Логин',
-      dataIndex: 'login',
-      key: 'login',
-    },{
-      title: 'КВ',
-      dataIndex: 'flat',
-      key: 'flat'
-    },{
-      title: 'Тариф',
-      dataIndex: 'tariff',
-      key: 'tariff'
-    },{
-      title: 'Баланс',
-      dataIndex: 'balance',
-      key: 'balance',
-    },{
-      title: 'Свитч',
-      dataIndex: 'switch',
-      key: 'switch',
-      render: (ip: string, rowData: Abon) => (
-        <Link
-          to={'/switch'}
-          state={{ ip: rowData.switch, port: rowData.port, street: home.street, homeNumber: home.number }}
-        >
-          {ip}
-        </Link>
-      )
-    },{
-      title: 'Порт',
-      dataIndex: 'port',
-      key: 'port',
-      render: (port: string, rowData: Abon) => (
-        <Link
-          to={'/port'}
-          state={{ ip: rowData.switch, port: rowData.port, street: home.street, homeNumber: home.number }}
-        >
-          {port}
-        </Link>
-      )
-    },{
-      title: 'Старт блокировки',
-      dataIndex: 'blockStart',
-      key: 'blockStart'
-    },
-  ]
+  const [ loading, setLoading ] = useState(false);
+  const [ abons, setAbons ] = useState<Abon[]>([]);
+  const [ searchParams ] = useSearchParams();
+  const { request } = useHttp();
+  const params  = useParams();
 
-  console.log(home);
+  useEffect(() => {
+    setLoading(true);
+    console.log({ street: params.street, homeNumber: searchParams.get('number') });
+    request.post<{ home: Home }>('/api/search/home', { street: params.street, homeNumber: searchParams.get('number') })
+      .then(response => {
+        console.log(response);
+        if (response.status === 200) {
+          setAbons(response.data.home.abons);
+        }
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
-    <Table
-      dataSource={home.abons}
-      columns={columns}
-      pagination={false}
-      rowClassName={((record) => {
-        if (!record.status) {
-          return 'blocked-abon';
-        }
-        return '';
-      })}
-    />
-  )
+    <div>
+      <Row align={"middle"} justify={"center"}>
+        <Col>
+          {loading && <Spin/>}
+
+          <AbonsTable abons={abons} />
+        </Col>
+      </Row>
+    </div>
+  );
 }

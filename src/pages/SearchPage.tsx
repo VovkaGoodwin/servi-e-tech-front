@@ -1,7 +1,7 @@
 import React from 'react'
 import {Col, Form, Row} from "antd";
-import {SwitchSearchForm} from "../сomponents/search/SwitchSearchForm";
-import {HomeSearchForm} from "../сomponents/search/HomeSearchForm";
+import {SwitchSearchForm} from "../components/search/SwitchSearchForm";
+import {HomeSearchForm} from "../components/search/HomeSearchForm";
 
 export const SearchPage: React.FC = () => {
 

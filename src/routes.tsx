@@ -7,7 +7,7 @@ import {PortDetailsPage} from "./pages/PortDetailsPage";
 import {LoginPage} from "./pages/LoginPage";
 import {Layout} from "antd";
 import {Content} from "antd/es/layout/layout";
-import {_Layout} from "./сomponents/_Layout";
+import {_Layout} from "./components/_Layout";
 
 type useRoutesProps = {
   isAuthenticated: boolean
@@ -19,9 +19,9 @@ export const useRoutes: React.FC<useRoutesProps> = ({isAuthenticated}) => {
       <Routes>
         <Route path="/*" element={<_Layout/>}>
           <Route index element={<SearchPage/>}/>
-          <Route path="switch" element={<SwitchDetailsPage/>}/>
-          <Route path="port" element={<PortDetailsPage/>}/>
-          <Route path="home" element={<HouseDetailsPage/>}/>
+          <Route path="switch/:ip" element={<SwitchDetailsPage/>}/>
+          <Route path="switch/:ip/:port" element={<PortDetailsPage/>}/>
+          <Route path="home/:street" element={<HouseDetailsPage/>}/>
           <Route path="*" element={<Navigate to="/"/>}/>
         </Route>
       </Routes>

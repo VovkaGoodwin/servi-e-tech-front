@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form, Input} from "antd";
 import {useHttp} from "../../hooks/http.hook";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useSearchParams} from "react-router-dom";
 
 type HomeSearchFormProps = {
   address: string,
@@ -15,16 +15,17 @@ type formData = {
 
 export const HomeSearchForm: React.FC<HomeSearchFormProps> = ({ address, homeNumber }) => {
 
-  const { request } = useHttp();
   const navigate = useNavigate();
 
   const onFormSubmitHandler = (values: formData) => {
-    request.post('/api/search/home', values).then(response => {
-      console.log('Search response: ', response.data);
-      if (response.status === 200) {
-        navigate('/home', { state: response.data })
-      }
-    });
+    // request.post('/api/search/home', values).then(response => {
+    //   console.log('Search response: ', response.data);
+    //   if (response.status === 200) {
+    //     navigate('/home', { state: response.data })
+    //   }
+    // });
+
+    navigate(`/home/${values.street}?number=${values.homeNumber}`);
   }
 
   return (
