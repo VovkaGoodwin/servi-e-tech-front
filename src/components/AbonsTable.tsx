@@ -2,21 +2,25 @@ import React from 'react'
 import {Abon} from "../types/dataTypes";
 import {Link} from "react-router-dom";
 import {Table} from "antd";
+import {ColumnsType} from "antd/lib/table";
 
 type AbonsTableProps = {
-  abons: Abon[]
+  abons: Abon[],
+  loading: boolean
 }
 
-export const AbonsTable: React.FC<AbonsTableProps> = ({ abons}) => {
-  const columns = [
+export const AbonsTable: React.FC<AbonsTableProps> = ({ abons, loading}) => {
+  const columns: ColumnsType<Abon> = [
     {
       title: 'ЛС',
       dataIndex: 'ls',
       key: 'ls',
+      responsive: [ 'lg' ]
     },{
       title: 'Логин',
       dataIndex: 'login',
       key: 'login',
+      responsive: [ 'lg' ]
     },{
       title: 'КВ',
       dataIndex: 'flat',
@@ -29,6 +33,7 @@ export const AbonsTable: React.FC<AbonsTableProps> = ({ abons}) => {
       title: 'Баланс',
       dataIndex: 'balance',
       key: 'balance',
+      responsive: [ 'lg' ]
     },{
       title: 'Свитч',
       dataIndex: 'switch',
@@ -54,9 +59,10 @@ export const AbonsTable: React.FC<AbonsTableProps> = ({ abons}) => {
     },{
       title: 'Старт блокировки',
       dataIndex: 'blockStart',
-      key: 'blockStart'
+      key: 'blockStart',
+      responsive: [ "lg" ]
     },
-  ]
+  ];
 
   return (
     <div>
@@ -64,6 +70,7 @@ export const AbonsTable: React.FC<AbonsTableProps> = ({ abons}) => {
         dataSource={abons}
         columns={columns}
         pagination={false}
+        loading={loading}
         rowClassName={((record) => {
           if (!record.status) {
             return 'blocked-abon';

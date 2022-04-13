@@ -29,9 +29,7 @@ export const HouseDetailsPage: React.FC = () => {
     <div>
       <Row align={"middle"} justify={"center"}>
         <Col>
-          {loading && <Spin/>}
-
-          <AbonsTable abons={abons} />
+          <AbonsTable abons={abons} loading={loading} />
         </Col>
       </Row>
     </div>
