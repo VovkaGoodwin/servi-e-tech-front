@@ -30,3 +30,28 @@ export type Home = {
   number: number | string,
   abons: Abon[]
 }
+
+export type Pair = {
+  state: string,
+  length: string | number
+}
+
+export type Port = {
+  number: number | string,
+  state: string,
+  description: string,
+  pair1: Pair,
+  pair2: Pair,
+  crcCount: string,
+  l2data: {
+    vlan: string,
+    mac: string[]
+  },
+  speed: string
+}
+
+export type Switch = Port[];
+
+type a = {
+  [string] : number
+}
