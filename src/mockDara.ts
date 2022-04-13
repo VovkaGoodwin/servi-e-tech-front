@@ -2,6 +2,8 @@ import {Abon, AuthData, Home, User} from "./types/dataTypes";
 import faker from 'faker'
 import { encode} from "js-base64";
 
+faker.setLocale('ru');
+
 const {
   datatype: { number, datetime },
   internet: { userName, ip },
@@ -32,15 +34,15 @@ export const mockHomes: Home[] = [{
   street: "Мокрушина",
   abons: Array(5)
     .fill('')
-    .map((_, i): Abon => {
+    .map((_): Abon => {
 
       const balance: number = number({min: -100, max: 100});
       const status: boolean = balance >= 0;
-      const blockDate: Date | null = (status) ? null : datetime();
+      const blockDate: Date | null = (status) ? null : datetime(new Date().getTime());
       let blockStart = '';
 
       if (blockDate) {
-        blockStart = `${blockDate.getDate()}-${blockDate.getMonth()}-${blockDate.getFullYear()}`
+        blockStart = `${blockDate.getFullYear()}-${blockDate.getMonth()}-${blockDate.getDate()}`
       }
 
       return {

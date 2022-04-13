@@ -24,11 +24,41 @@ export const AbonsTable: React.FC<AbonsTableProps> = ({ abons, loading}) => {
     },{
       title: 'КВ',
       dataIndex: 'flat',
-      key: 'flat'
+      key: 'flat',
+      render: (flat: string | number, rowData: Abon) => {
+        if (rowData.login.match(/_otkl$/)) {
+          return (
+            <span>
+              {flat} <b>O</b>
+            </span>
+          )
+        }
+        return flat;
+      }
     },{
       title: 'Тариф',
       dataIndex: 'tariff',
-      key: 'tariff'
+      key: 'tariff',
+      render: (tariff: string, rowData) => {
+
+        if (!rowData.status) {
+          const now = new Date();
+          const blockStart = new Date(rowData.blockStart);
+          const timeDelta = now.getTime() - blockStart.getTime();
+
+          console.log('timeDelta', timeDelta);
+
+          if (timeDelta >= 3600 * 24 * 30 * 6) {
+            return  (
+              <span>
+              {tariff} <b>X</b>
+            </span>
+            );
+          }
+        }
+
+        return tariff;
+      }
     },{
       title: 'Баланс',
       dataIndex: 'balance',
