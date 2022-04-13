@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
 import MockAdapter from "axios-mock-adapter";
-import {mockAuth, mockUsers, mockHomes} from "../mockDara";
+import {mockAuth, mockUsers, mockHomes, mockSwitches} from "../mockDara";
 import {encode} from "js-base64";
 import {User} from "../types/dataTypes";
 
@@ -53,6 +53,19 @@ export const useHttp = (): httpHook => {
     return [ 404 ];
     // const data = JSON.parse(req)
   });
+
+  mock.onPost('/api/search/switch').reply((request) => {
+
+    const { ip } = JSON.parse(request.data);
+
+    const sw = mockSwitches[ ip ] ?? null;
+
+    if (sw !== null) {
+      return [200, { switch: sw }]
+    }
+
+    return [ 404 ];
+  })
 
   return { request };
 
