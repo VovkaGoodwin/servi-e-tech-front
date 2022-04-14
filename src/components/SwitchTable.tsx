@@ -71,7 +71,7 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
           newProps.className = 'no-cable'
           break;
         case 'Short':
-          newProps.className = '.short-pairs'
+          newProps.className = 'short-pairs'
           break;
         case 'OK':
           newProps.className = 'ok-port'
