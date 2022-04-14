@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react'
-import {useLocation} from "react-router-dom";
+import {useLocation, useParams} from "react-router-dom";
 import {useHttp} from "../hooks/http.hook";
 import {Col, Row, Spin} from "antd";
 import {Switch} from "../types/dataTypes";
+import {SwitchTable} from "../components/SwitchTable";
 
 type SwitchDetails = {
   ip: string,
@@ -11,16 +12,16 @@ type SwitchDetails = {
 }
 
 export const SwitchDetailsPage: React.FC = () => {
-  const { ip } = useLocation().state as SwitchDetails;
+  const { ip } = useParams<{ip: string}>();
   const { request } = useHttp();
   const [ loading, setLoading ] = useState<boolean>(false);
-  const [ sw, setSw ] = useState<Switch>()
+  const [ sw, setSw ] = useState<Switch>([])
 
   useEffect(() => {
     setLoading(true);
-    request.post<Switch>('/api/search/switch', { ip }).then(response => {
+    request.post<{ switch: Switch }>('/api/search/switch', { ip }).then(response => {
       console.log('switch response: ', response);
-      setSw(response.data);
+      setSw(response.data.switch);
     }).catch(reason => console.log(reason))
       .finally(() => setLoading(false))
   }, []);
@@ -29,7 +30,7 @@ export const SwitchDetailsPage: React.FC = () => {
     <div>
       <Row align={'middle'} justify={"center"}>
         <Col >
-          {loading && <Spin/>}
+          <SwitchTable loading={loading} ip={''} data={sw}/>
         </Col>
       </Row>
     </div>

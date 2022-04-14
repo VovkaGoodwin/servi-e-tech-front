@@ -32,13 +32,13 @@ export type Home = {
 }
 
 export type Pair = {
-  state: string,
+  state: "Open" | "Нет кабеля" | "Short" | "ОК" | string,
   length: string | number
 }
 
 export type Port = {
   number: number | string,
-  state: string,
+  state: "Link-Up" | "Link-Down" | string,
   description: string,
   pair1: Pair,
   pair2: Pair,
@@ -51,7 +51,3 @@ export type Port = {
 }
 
 export type Switch = Port[];
-
-type a = {
-  [string] : number
-}
