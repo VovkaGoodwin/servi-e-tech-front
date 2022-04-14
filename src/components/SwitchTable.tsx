@@ -58,6 +58,27 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
     title: 'Статус',
     dataIndex: 'cableState',
     key: 'cableState',
+    onCell: ({ cableState }) => {
+      const newProps = {
+        className: ''
+      };
+
+      switch (cableState) {
+        case 'Open':
+          newProps.className = '.open-pairs';
+          break;
+        case 'Нет кабеля':
+          newProps.className = 'no-cable'
+          break;
+        case 'Short':
+          newProps.className = '.short-pairs'
+          break;
+        case 'OK':
+          newProps.className = 'ok-port'
+      }
+
+      return newProps;
+    }
   }, {
     title: 'Длины',
     dataIndex: 'cableLength',
