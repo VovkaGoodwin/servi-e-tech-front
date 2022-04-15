@@ -30,7 +30,7 @@ export const SwitchDetailsPage: React.FC = () => {
     <div>
       <Row align={'middle'} justify={"center"}>
         <Col >
-          <SwitchTable loading={loading} ip={''} data={sw}/>
+          <SwitchTable loading={loading} ip={`${ip}`} data={sw}/>
         </Col>
       </Row>
     </div>

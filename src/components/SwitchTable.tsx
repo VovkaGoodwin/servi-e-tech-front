@@ -2,6 +2,7 @@ import React from 'react'
 import {Switch} from "../types/dataTypes";
 import {Table} from "antd";
 import {ColumnsType} from "antd/lib/table";
+import {Link} from "react-router-dom";
 
 type SwitchTableProps = {
   data: Switch,
@@ -46,6 +47,7 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
     title: '#',
     dataIndex: 'portNumber',
     key: 'portNumber',
+    render: portNumber => <Link to={`/switch/${ip}/${portNumber}`}>{portNumber}</Link>
   }, {
     title: 'Порт',
     dataIndex: 'portState',
@@ -65,7 +67,7 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
 
       switch (cableState) {
         case 'Open':
-          newProps.className = '.open-pairs';
+          newProps.className = 'open-pairs';
           break;
         case 'Нет кабеля':
           newProps.className = 'no-cable'
