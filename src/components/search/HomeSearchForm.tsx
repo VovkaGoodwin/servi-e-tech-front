@@ -18,13 +18,6 @@ export const HomeSearchForm: React.FC<HomeSearchFormProps> = ({ address, homeNum
   const navigate = useNavigate();
 
   const onFormSubmitHandler = (values: formData) => {
-    // request.post('/api/search/home', values).then(response => {
-    //   console.log('Search response: ', response.data);
-    //   if (response.status === 200) {
-    //     navigate('/home', { state: response.data })
-    //   }
-    // });
-
     navigate(`/home/${values.street}?number=${values.homeNumber}`);
   }
 

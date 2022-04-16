@@ -10,25 +10,19 @@ type SwitchSearchFormProps = {
 
 type formData = {
   ip: string,
-  portNumber: string
+  port: string
 }
 
 export const SwitchSearchForm: React.FC<SwitchSearchFormProps> = ({ipAddress, portNumber}) => {
 
-  const { request } = useHttp();
   const navigate = useNavigate();
 
-  const onFormSubmitHandler = ({ ip, portNumber }: formData) => {
-    let url: string = `/api/search/switch/${ip}`;
-    if (portNumber) {
-      url += `/${portNumber}`;
+  const onFormSubmitHandler = ({ip, port}: formData) => {
+    let url = `/switch/${ip}`;
+    if (port) {
+      url += `/${port}`;
     }
-    request.get(url).then(response => {
-      console.log('Search response: ', response.data);
-      if (response.status === 200) {
-        navigate('/home', { state: response.data })
-      }
-    });
+    navigate(url);
   }
 
   return (
@@ -36,11 +30,18 @@ export const SwitchSearchForm: React.FC<SwitchSearchFormProps> = ({ipAddress, po
       <Form
         onFinish={onFormSubmitHandler}
       >
-        <Form.Item style={{display: 'inline-block', marginRight: '5px'}}>
-          <Input placeholder="IP адрес" name="ipAddress" value={ipAddress}/>
+        <Form.Item
+          style={{display: 'inline-block', marginRight: '5px'}}
+          rules={[{ required: true, message: 'Введите IP!' }]}
+          name={"ip"}
+        >
+          <Input placeholder="IP адрес" name="ip" value={ipAddress}/>
         </Form.Item>
-        <Form.Item style={{display: 'inline-block'}}>
-          <Input placeholder="Порт" name="portNumber" value={portNumber} style={{width: 100}}/>
+        <Form.Item
+          style={{display: 'inline-block'}}
+          name={"port"}
+        >
+          <Input placeholder="Порт" name="port" value={portNumber} style={{width: 100}}/>
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit">Поиск</Button>
