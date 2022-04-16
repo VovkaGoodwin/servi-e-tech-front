@@ -38,7 +38,7 @@ export type Pair = {
 
 export type Port = {
   number: number | string,
-  state: "Link-Up" | "Link-Down" | string,
+  state: "Link-UP" | "Link-Down" | string,
   description: string,
   pair1: Pair,
   pair2: Pair,

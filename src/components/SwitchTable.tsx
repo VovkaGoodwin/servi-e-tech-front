@@ -3,6 +3,7 @@ import {Switch} from "../types/dataTypes";
 import {Table} from "antd";
 import {ColumnsType} from "antd/lib/table";
 import {Link} from "react-router-dom";
+import {getPairCellColor} from "../helpers/cableFunctions";
 
 type SwitchTableProps = {
   data: Switch,
@@ -60,27 +61,9 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
     title: 'Статус',
     dataIndex: 'cableState',
     key: 'cableState',
-    onCell: ({ cableState }) => {
-      const newProps = {
-        className: ''
-      };
-
-      switch (cableState) {
-        case 'Open':
-          newProps.className = 'open-pairs';
-          break;
-        case 'Нет кабеля':
-          newProps.className = 'no-cable'
-          break;
-        case 'Short':
-          newProps.className = 'short-pairs'
-          break;
-        case 'OK':
-          newProps.className = 'ok-port'
-      }
-
-      return newProps;
-    }
+    onCell: ({ cableState }) => ({
+      className: getPairCellColor(cableState)
+    })
   }, {
     title: 'Длины',
     dataIndex: 'cableLength',

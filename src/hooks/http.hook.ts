@@ -1,9 +1,5 @@
-import { useState, useCallback } from "react";
 import axios, {AxiosInstance, AxiosRequestConfig} from "axios";
-import MockAdapter from "axios-mock-adapter";
-import {mockAuth, mockUsers, mockHomes, mockSwitches} from "../mockDara";
-import {encode} from "js-base64";
-import {User} from "../types/dataTypes";
+import {useMockHttp} from "./http.mock.hook";
 
 type httpHook = {
   request: AxiosInstance
@@ -11,61 +7,14 @@ type httpHook = {
 
 export const useHttp = (): httpHook => {
 
-  const config: AxiosRequestConfig = {
-    baseURL: '/',
-    responseType: "json" as const
-  }
+  // const config: AxiosRequestConfig = {
+  //   baseURL: '/',
+  //   responseType: "json" as const
+  // }
+  //
+  // const request = axios.create(config);
 
-  const request = axios.create(config);
-
-  const mock =  new MockAdapter(request, { delayResponse: 1000 });
-
-  mock.onPost('/api/auth').reply((request) => {
-
-    const data = JSON.parse(request.data);
-    console.log('data:', data);
-
-    const user = mockUsers.find((user) => user.password === encode(data.password) && user.login === data.login);
-
-    if (user) {
-      const authData = mockAuth.find((auth) => auth.id === user.id);
-      return [ 200, {user, authData} ];
-    }
-
-    return [204]
-  });
-
-  mock.onPost('/api/search/home').reply((request) => {
-
-    const data = JSON.parse(request.data);
-    console.log('get data:', data);
-    console.log('Home: ', mockHomes);
-
-
-
-    // eslint-disable-next-line eqeqeq
-    const home = mockHomes.find(home => home.number == data.homeNumber && home.street == data.street )
-
-    if (home) {
-      return [ 200, { home }]
-    }
-
-    return [ 404 ];
-    // const data = JSON.parse(req)
-  });
-
-  mock.onPost('/api/search/switch').reply((request) => {
-
-    const { ip } = JSON.parse(request.data);
-
-    const sw = mockSwitches[ ip ] ?? null;
-
-    if (sw !== null) {
-      return [200, { switch: sw }]
-    }
-
-    return [ 404 ];
-  })
+  const { request } = useMockHttp();
 
   return { request };
 
