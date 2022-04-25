@@ -4,6 +4,7 @@ import {Table} from "antd";
 import {ColumnsType} from "antd/lib/table";
 import {Link} from "react-router-dom";
 import {getPairCellColor} from "../helpers/cableFunctions";
+import {ControlPanel} from "./controlPanel";
 
 type SwitchTableProps = {
   data: Switch,
@@ -12,6 +13,7 @@ type SwitchTableProps = {
 }
 
 type SwitchRow = {
+  key: number,
   portNumber: number | string,
   portState: string,
   pairNumber: number,
@@ -24,8 +26,9 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
   const rows: SwitchRow[] = [];
   console.log(data);
 
-  data.forEach(port => {
+  data.forEach((port, i) => {
     rows.push({
+      key: i,
       portNumber: port.number,
       portState: port.state,
       pairNumber: 1,
@@ -35,6 +38,7 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
 
     if (port.state === "Link-Down") {
       rows.push({
+        key: 0-i,
         portNumber: '',
         portState: '',
         pairNumber: 2,
@@ -76,6 +80,18 @@ export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) =>
       dataSource={rows}
       loading={loading}
       pagination={false}
+      expandable={{
+        expandedRowRender: (record, index, indent, expanded) => {
+          if (expanded) {
+            return (<ControlPanel ip={ip} portNumber={record.portNumber}/>);
+          } else {
+            return (<></>);
+          }
+        },
+        rowExpandable: record => record.portState === 'Link-UP',
+        expandRowByClick: true,
+        showExpandColumn: false
+      }}
     >
 
     </Table>

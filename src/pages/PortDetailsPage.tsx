@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {Col, Row, Table} from "antd";
+import {Button, Col, Row, Space, Table} from "antd";
 import {Port} from "../types/dataTypes";
 import {useHttp} from "../hooks/http.hook";
-import {ColumnsType} from "antd/lib/table";
 import {getPairCellColor, getPortCellColor} from "../helpers/cableFunctions";
+import {ControlPanel} from "../components/controlPanel";
 
 type PortParams = {
   ip: string,
@@ -19,14 +19,12 @@ export const PortDetailsPage: React.FC = () => {
   const [ portData, setPortData ] = useState<Port>();
   const { request } = useHttp();
 
-  console.log('port params', ip, portNumber);
-
   useEffect(() => {
     setLoading(true);
+    console.log('use effect');
     request.get<{ port: [ Port ] }>(`/api/search/switch/${ip}/${portNumber}`)
       .then(result => {
         const { data: { port: [ port ] } } = result;
-        console.log('port: ', port);
         setPortData(port);
       })
       .finally(() => setLoading(false))
@@ -36,44 +34,7 @@ export const PortDetailsPage: React.FC = () => {
   let rowsConfig: any[] = [];//: ColumnsType<{ title: string, data: any, link: string, pair: string, state: string, length: string | number }> = [];
   if (portData) {
     if (portData.state === "Link-UP") {
-      rowsConfig = [{
-        title: '',
-        dataIndex: 'title',
-        key: 'title',
-      }, {
-        title: '',
-        dataIndex: 'data',
-        key: 'data',
-        onCell: (row: any) => {
-          const { title, data } = row;
-          if (title === 'Статус') {
-            return {
-              className: getPortCellColor(data)
-            }
-          }
-          return {};
-        }
-      }];
-
-      rows = [{
-        title: 'Статус',
-        data: portData.state
-      }, {
-        title: 'Скорость',
-        data: portData.speed
-      }, {
-        title: 'Длина',
-        data: portData.pair1.length
-      }, {
-        title: `Vlan ${portData.l2data.vlan}s MAC:`,
-        data: portData.l2data.mac.join(', ')
-      }, {
-        title: 'CRC',
-        data: portData.crcCount
-      }, {
-        title: 'Описание',
-        data: portData.description
-      }]
+      return (<ControlPanel ip={ip} portNumber={portNumber} />);
     } else {
       rowsConfig = [{
         title: 'Линк',
@@ -117,7 +78,6 @@ export const PortDetailsPage: React.FC = () => {
       <Row align={'middle'} justify={"center"}>
         <Col>
           <Table
-            // @ts-ignore
             columns={rowsConfig}
             dataSource={rows}
             pagination={false}

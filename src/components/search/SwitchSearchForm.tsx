@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Input, Space, Row} from "antd";
+import {Button, Form, Input, Space, Row, Col} from "antd";
 import {useHttp} from "../../hooks/http.hook";
 import {useNavigate} from "react-router-dom";
 
@@ -44,7 +44,11 @@ export const SwitchSearchForm: React.FC<SwitchSearchFormProps> = ({ipAddress, po
           <Input placeholder="Порт" name="port" value={portNumber} style={{width: 100}}/>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">Поиск</Button>
+          <Row justify={"center"}>
+            <Col>
+              <Button type="primary" htmlType="submit">Поиск</Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </div>

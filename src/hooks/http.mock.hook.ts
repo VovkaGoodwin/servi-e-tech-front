@@ -4,6 +4,7 @@ import {encode} from "js-base64";
 import {useHttp} from "./http.hook";
 import axios, {AxiosRequestConfig} from "axios";
 import {Switch} from "../types/dataTypes";
+import {json} from "stream/consumers";
 
 
 export const useMockHttp = () => {
@@ -57,6 +58,29 @@ export const useMockHttp = () => {
     }
 
     return [ 404 ];
+  });
+
+  mock.onPost('/api/control/port/clear').reply(request => {
+    console.log(request)
+    const { ip, portNumber } = JSON.parse(request.data);
+    const sw = mockSwitches[ ip ] ?? null;
+
+
+    if (sw !== null) {
+      mockSwitches[ ip ] = sw.map(port => {
+        if (port.number == portNumber) {
+          console.log(port)
+          port.crcCount = '0';
+        }
+        return port;
+      });
+
+      console.log(mockSwitches);
+
+      return [ 200, { success: true }];
+    }
+
+    return [ 404 ]
   });
 
   mock.onGet(/\/api\/search\/switch\/(.+)\/(.+)/, ).reply(req => {

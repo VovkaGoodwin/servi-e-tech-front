@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Input} from "antd";
+import {Button, Col, Form, Input, Row} from "antd";
 import {useHttp} from "../../hooks/http.hook";
 import {useNavigate, useSearchParams} from "react-router-dom";
 
@@ -41,7 +41,11 @@ export const HomeSearchForm: React.FC<HomeSearchFormProps> = ({ address, homeNum
           <Input placeholder="Дом" name="homeNumber" value={homeNumber} style={{width: 100}}/>
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">Поиск</Button>
+          <Row justify={"center"}>
+            <Col>
+              <Button type="primary" htmlType="submit">Поиск</Button>
+            </Col>
+          </Row>
         </Form.Item>
       </Form>
     </div>

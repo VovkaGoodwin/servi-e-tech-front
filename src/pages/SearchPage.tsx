@@ -8,12 +8,12 @@ export const SearchPage: React.FC = () => {
   return (
     <div>
       <Row justify={"center"}>
-        <Col xs={24} xl={6}>
+        <Col>
           <SwitchSearchForm ipAddress={''} portNumber={''}/>
         </Col>
       </Row>
       <Row justify={"center"}>
-        <Col xs={24} xl={6}>
+        <Col>
           <HomeSearchForm address={""} homeNumber={""}/>
         </Col>
       </Row>
