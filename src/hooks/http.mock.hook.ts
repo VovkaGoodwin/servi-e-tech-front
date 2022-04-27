@@ -21,8 +21,6 @@ export const useMockHttp = () => {
   mock.onPost('/api/auth').reply((request) => {
 
     const data = JSON.parse(request.data);
-    console.log('data:', data);
-
     const user = mockUsers.find((user) => user.password === encode(data.password) && user.login === data.login);
 
     if (user) {
@@ -75,8 +73,6 @@ export const useMockHttp = () => {
         return port;
       });
 
-      console.log(mockSwitches);
-
       return [ 200, { success: true }];
     }
 
@@ -86,13 +82,40 @@ export const useMockHttp = () => {
   mock.onGet(/\/api\/search\/switch\/(.+)\/(.+)/, ).reply(req => {
     const [ ip, portNumber ] = req.url?.replace('/api/search/switch/', '').split('/') ?? [ '', ''];
 
-    console.log(ip, portNumber);
-
     const sw: Switch = mockSwitches[ ip ] ?? null;
 
     if (sw !== null) {
       const port = sw.filter(el => `${el.number}` === portNumber);
       return [ 200, {port} ];
+    }
+
+    return [ 404 ];
+  });
+
+  mock.onGet('/api/users').reply(() => {
+    return [ 200, {mockUsers} ];
+  });
+
+  mock.onGet(/\/api\/users\/(.+)/).reply(req => {
+    const [ id ] = req.url?.replace('/api/users/', '').split('') ?? [ '' ];
+    // @ts-ignore
+    const user = mockUsers.filter(({ id: userId }) => userId == id )[0];
+
+    if (user) {
+      return [ 200, {user} ];
+    }
+
+    return [ 404 ];
+  })
+
+  mock.onDelete(/\/api\/users\/(.+)/).reply(req => {
+    const [ id ] = req.url?.replace('/api/users/', '').split('') ?? [ '' ];
+
+    // @ts-ignore
+    const user = mockUsers.filter(({ id: userId }) => userId == id );
+
+    if (user) {
+      return [ 200, {user} ];
     }
 
     return [ 404 ];
