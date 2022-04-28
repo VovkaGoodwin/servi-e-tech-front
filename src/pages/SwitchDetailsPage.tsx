@@ -19,11 +19,7 @@ export const SwitchDetailsPage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    request.post<{ switch: Switch }>('/api/search/switch', { ip }).then(response => {
-      console.log('switch response: ', response);
-      setSw(response.data.switch);
-    }).catch(reason => console.log(reason))
-      .finally(() => setLoading(false))
+    request.post<{ switch: Switch }>('/api/search/switch', { ip }).then(response => setSw(response.data.switch)).finally(() => setLoading(false))
   }, []);
 
   return (

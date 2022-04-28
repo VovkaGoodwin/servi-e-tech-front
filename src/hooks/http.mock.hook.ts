@@ -1,5 +1,5 @@
 import MockAdapter from "axios-mock-adapter";
-import {mockAuth, mockHomes, mockSwitches, mockUsers} from "../mockDara";
+import {mockAuth, mockHomes, mockSwitches, mockTickets, mockUsers} from "../mockDara";
 import {encode} from "js-base64";
 import axios, {AxiosRequestConfig} from "axios";
 import {Switch} from "../types/dataTypes";
@@ -57,7 +57,6 @@ export const useMockHttp = () => {
   });
 
   mock.onPost('/api/control/port/clear').reply(request => {
-    console.log(request)
     const { ip, portNumber } = JSON.parse(request.data);
     const sw = mockSwitches[ ip ] ?? null;
 
@@ -65,7 +64,6 @@ export const useMockHttp = () => {
     if (sw !== null) {
       mockSwitches[ ip ] = sw.map(port => {
         if (port.number == portNumber) {
-          console.log(port)
           port.crcCount = '0';
         }
         return port;
@@ -126,9 +124,10 @@ export const useMockHttp = () => {
 
   mock.onPut(/\/api\/users\/(.+)/).reply(request => {
     const [ id ] = request.url?.replace('/api/users/', '').split('') ?? [ '' ];
-    console.log(request, id);
     return [ 200 ];
   });
+
+  mock.onGet('/api/tickets').reply(() =>  [ 200, {tickets: mockTickets} ]);
 
   return { request }
 }

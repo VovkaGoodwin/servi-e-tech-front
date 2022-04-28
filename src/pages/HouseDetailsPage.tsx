@@ -14,10 +14,8 @@ export const HouseDetailsPage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log({ street: params.street, homeNumber: searchParams.get('number') });
     request.post<{ home: Home }>('/api/search/home', { street: params.street, homeNumber: searchParams.get('number') })
       .then(response => {
-        console.log(response);
         if (response.status === 200) {
           setAbons(response.data.home.abons);
         }

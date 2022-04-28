@@ -21,7 +21,6 @@ export const PortDetailsPage: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    console.log('use effect');
     request.get<{ port: [ Port ] }>(`/api/search/switch/${ip}/${portNumber}`)
       .then(result => {
         const { data: { port: [ port ] } } = result;

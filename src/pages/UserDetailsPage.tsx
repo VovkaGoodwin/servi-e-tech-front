@@ -61,8 +61,6 @@ export const UserDetailsPage: React.FC = () => {
     isAdmin: user.isAdmin
   });
 
-  console.log('user', user);
-
   return (
     <div>
       <Row justify={"center"}>

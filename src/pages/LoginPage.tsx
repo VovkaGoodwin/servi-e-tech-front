@@ -9,7 +9,6 @@ export const LoginPage: React.FC = () => {
   const { request } = useHttp();
 
   const onFinish = (values: any) => {
-    console.log(values);
 
     request.post('/api/auth', values).then((response) => {
       if (response.status === 200) {
@@ -20,7 +19,6 @@ export const LoginPage: React.FC = () => {
   };
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
   };
 
   return (

@@ -101,3 +101,27 @@ const mockSwitch: Switch = Array(24)
 export const mockSwitches: {[key: string]: Switch} = {
   '10.196.90.21': mockSwitch
 }
+
+export const mockTickets = {
+  "new": [],
+  "old": [
+    {
+      "id": "67640",
+      "basic_account": "41329",
+      "phone_number": "79539269401",
+      "priority": "1",
+      "assigned_at": "2022-04-28 19:00:00",
+      "text": "2 симки MNP, 1 новая сим-карта , МЫ МТС+ 0/888/888/1188, если будет добавлять жену в группу \"Семья\" еще +150р кросс",
+      "address": "Томск, улица, Иркутский тракт, 196, кв. 46",
+      "sector_id": "18",
+      "sector_title": "Октябрьский",
+      "extra_sector_id": "20",
+      "extra_sector_title": "Жилмассив",
+      "tariff_name": "Смотри больше 2019",
+      "full_name": "Зинин Евгений Владимирович",
+      "login": "ezinin",
+      "password": "71259691",
+      "service_engineer": "Гайнуллин Руслан"
+    }
+  ]
+}

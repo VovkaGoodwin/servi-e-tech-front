@@ -24,7 +24,6 @@ type SwitchRow = {
 export const SwitchTable: React.FC<SwitchTableProps> = ({ data, loading, ip}) => {
 
   const rows: SwitchRow[] = [];
-  console.log(data);
 
   data.forEach((port, i) => {
     rows.push({

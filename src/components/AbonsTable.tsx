@@ -46,8 +46,6 @@ export const AbonsTable: React.FC<AbonsTableProps> = ({ abons, loading}) => {
           const blockStart = new Date(rowData.blockStart);
           const timeDelta = now.getTime() - blockStart.getTime();
 
-          console.log('timeDelta', timeDelta);
-
           if (timeDelta >= 3600 * 24 * 30 * 6) {
             return  (
               <span>
