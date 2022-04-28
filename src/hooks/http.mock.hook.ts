@@ -1,10 +1,8 @@
 import MockAdapter from "axios-mock-adapter";
 import {mockAuth, mockHomes, mockSwitches, mockUsers} from "../mockDara";
 import {encode} from "js-base64";
-import {useHttp} from "./http.hook";
 import axios, {AxiosRequestConfig} from "axios";
 import {Switch} from "../types/dataTypes";
-import {json} from "stream/consumers";
 
 
 export const useMockHttp = () => {
@@ -119,7 +117,18 @@ export const useMockHttp = () => {
     }
 
     return [ 404 ];
-  })
+  });
+
+  mock.onPost('/api/users').reply(request => {
+    console.log(request);
+    return [ 200 ];
+  });
+
+  mock.onPut(/\/api\/users\/(.+)/).reply(request => {
+    const [ id ] = request.url?.replace('/api/users/', '').split('') ?? [ '' ];
+    console.log(request, id);
+    return [ 200 ];
+  });
 
   return { request }
 }

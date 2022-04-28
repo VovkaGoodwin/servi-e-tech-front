@@ -1,9 +1,17 @@
 import React, {useEffect, useState} from 'react'
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {User} from "../types/dataTypes";
 import {useHttp} from "../hooks/http.hook";
-import {Button, Checkbox, Col, Form, Input, InputNumber, Row} from "antd";
-import {encode} from "js-base64";
+import {Button, Checkbox, Col, Form, Input, Row} from "antd";
+import {AxiosPromise} from "axios";
+
+type formValuesType = {
+  login: string,
+  password: string,
+  firstName: string,
+  name: string,
+  isAdmin: boolean
+};
 
 export const UserDetailsPage: React.FC = () => {
 
@@ -19,8 +27,23 @@ export const UserDetailsPage: React.FC = () => {
     isAdmin: false
   });
   const [ loading, setLoading ] = useState<boolean>(false);
+  const [ form ] = Form.useForm();
+  const navigate = useNavigate();
 
   const isNewUser: boolean = id == '0';
+
+  const onFormSubmitHandler = (values: formValuesType) => {
+    setLoading(true);
+    let promise: AxiosPromise;
+    if (isNewUser) {
+      promise = request.post<{user: User}>('/api/users', { values });
+    } else {
+      promise = request.put<{user: User}>(`/api/users/${id}`, { values });
+    }
+
+    promise.then(() => navigate('/users')).finally(() => setLoading(false))
+
+  }
 
   useEffect(() => {
     if (!isNewUser) {
@@ -29,7 +52,14 @@ export const UserDetailsPage: React.FC = () => {
         .then(response => setUser(response.data.user))
         .finally(() => setLoading(false));
     }
-  }, [])
+  }, []);
+
+  form.setFieldsValue({
+    firstName: user.firstName,
+    name: user.lastName,
+    login: user.login,
+    isAdmin: user.isAdmin
+  });
 
   console.log('user', user);
 
@@ -37,12 +67,15 @@ export const UserDetailsPage: React.FC = () => {
     <div>
       <Row justify={"center"}>
         <Col>
-          <Form>
+          <Form
+            form={form}
+            onFinish={onFormSubmitHandler}
+          >
             <Form.Item label={"ID"}>
               <span>{user.id}</span>
             </Form.Item>
             <Form.Item name={'login'} label="Логин" rules={[{ required: isNewUser, message: 'Введите логин' }]}>
-              <Input readOnly={!isNewUser} defaultValue={user.login}/>
+              <Input readOnly={!isNewUser}/>
             </Form.Item>
             <Form.Item name={'password'} label="Пароль" rules={[{ required: isNewUser, message: 'Введите пароль' }]}>
               <Input.Password/>
@@ -69,16 +102,16 @@ export const UserDetailsPage: React.FC = () => {
             </Form.Item>
 
             <Form.Item name={'firstName'} label="Фамилия" rules={[{ required: true, message: 'Введите фамилию' }]} initialValue={user.lastName}>
-              <Input defaultValue={user.lastName}/>
+              <Input />
             </Form.Item>
-            <Form.Item name={'name'} label="Имя" rules={[{ required: true, message: 'Введите имя' }]}>
-              <Input value={user.firstName}/>
+            <Form.Item name={'name'} label="Имя" rules={[{ required: true, message: 'Введите имя' }]} >
+              <Input />
             </Form.Item>
             <Form.Item name={'isAdmin'} label="Администратор">
-              <Checkbox checked={user.isAdmin}/>
+              <Checkbox />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button loading={loading} type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
