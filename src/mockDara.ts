@@ -108,7 +108,7 @@ export const mockTickets = {
     {
       "id": "67640",
       "basic_account": "41329",
-      "phone_number": "79539269401",
+      "phone_number": "88005553535",
       "priority": "1",
       "assigned_at": "2022-04-28 19:00:00",
       "text": "2 симки MNP, 1 новая сим-карта , МЫ МТС+ 0/888/888/1188, если будет добавлять жену в группу \"Семья\" еще +150р кросс",
@@ -118,9 +118,9 @@ export const mockTickets = {
       "extra_sector_id": "20",
       "extra_sector_title": "Жилмассив",
       "tariff_name": "Смотри больше 2019",
-      "full_name": "Зинин Евгений Владимирович",
-      "login": "ezinin",
-      "password": "71259691",
+      "full_name": "Имя Фаилия Отчество",
+      "login": "qwerty",
+      "password": "721259691",
       "service_engineer": "Гайнуллин Руслан"
     }
   ]
